@@ -1,1 +1,2 @@
-This is our projecThis is our projectt
+Softwaredesign Abschlussprojekt von:
+Jens Nockenberg, Til Neubauer, Otto Sandrini
