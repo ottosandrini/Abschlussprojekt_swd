@@ -1,5 +1,6 @@
 import streamlit as st
 import os 
+from logik import songclass
 
 st.write("abracadabra")
          
@@ -35,3 +36,5 @@ with tab1:
                 # Bestätigung anzeigen
                 st.success(f"Die Datei wurde erfolgreich gespeichert: {file_path}")
             
+            song = songclass.Song( filename, file_path, "Test", "Test", "Test")
+            song.store_data()
