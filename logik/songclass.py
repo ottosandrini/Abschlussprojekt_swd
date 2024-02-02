@@ -1,12 +1,23 @@
 import tinydb
+import os
 from . import fingerprint as fp
 
 
 class Song:
-    def __init__(self, name, ):
+    db_connector = TinyDB(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.json'))
+    """
+    Song Klasse
+    kann einen Hash aus einem Song generieren und die Hashes + Songinfo speichern
+    """
+    def __init__(self, name, file, album, artist, album_art):
         self.name = name
+        self.file = file
+        self.album = album
+        self.artist = artist
+        self.album_art = album_art
+        self.song_hash = self.fingerprint_file()
 
-    def fingerprint_file(filename):
+    def fingerprint_file(self.file):
         """Generate hashes for a file.
 
         Given a file, runs it through the fingerprint process to produce a list of hashes from it.
@@ -19,17 +30,5 @@ class Song:
         peaks = fp.idxs_to_tf_pairs(peaks, t, f)
         return fp.hash_points(peaks, filename)
 
-
-    def fingerprint_audio(frames):
-        """Generate hashes for a series of audio frames.
-
-        Used when recording audio.
-
-        :param frames: A mono audio stream. Data type is any that ``scipy.signal.spectrogram`` accepts.
-        :returns: The output of :func:`hash_points`.
-        """
-        f, t, Sxx = fp.my_spectrogram(frames)
-        peaks = fp.find_peaks(Sxx)
-        peaks = fp.idxs_to_tf_pairs(peaks, t, f)
-        return fp.hash_points(peaks, "recorded")
-
+    def store_data(self):
+        pass
