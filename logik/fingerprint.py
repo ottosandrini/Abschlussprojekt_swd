@@ -118,7 +118,7 @@ def hash_points(points, filename):
             ))
     return hashes
 
-
+'''
 def fingerprint_file(filename):
     """Generate hashes for a file.
 
@@ -145,3 +145,7 @@ def fingerprint_audio(frames):
     peaks = find_peaks(Sxx)
     peaks = idxs_to_tf_pairs(peaks, t, f)
     return hash_points(peaks, "recorded")
+''''''''
+
+def mytest:
+    pass

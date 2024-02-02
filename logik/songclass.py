@@ -31,4 +31,6 @@ class Song:
         return fp.hash_points(peaks, filename)
 
     def store_data(self):
-        pass
+        print("... storing data")
+        self.db_connector.insert(self.__dict__)
+        print("... data stored!")
