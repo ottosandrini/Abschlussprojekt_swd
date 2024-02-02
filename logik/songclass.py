@@ -1,4 +1,4 @@
-import tinydb
+from tinydb import TinyDB, Query
 import os
 from . import fingerprint as fp
 
