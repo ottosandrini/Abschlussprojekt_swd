@@ -118,34 +118,3 @@ def hash_points(points, filename):
             ))
     return hashes
 
-'''
-def fingerprint_file(filename):
-    """Generate hashes for a file.
-
-    Given a file, runs it through the fingerprint process to produce a list of hashes from it.
-
-    :param filename: The path to the file.
-    :returns: The output of :func:`hash_points`.
-    """
-    f, t, Sxx = file_to_spectrogram(filename)
-    peaks = find_peaks(Sxx)
-    peaks = idxs_to_tf_pairs(peaks, t, f)
-    return hash_points(peaks, filename)
-
-
-def fingerprint_audio(frames):
-    """Generate hashes for a series of audio frames.
-
-    Used when recording audio.
-
-    :param frames: A mono audio stream. Data type is any that ``scipy.signal.spectrogram`` accepts.
-    :returns: The output of :func:`hash_points`.
-    """
-    f, t, Sxx = my_spectrogram(frames)
-    peaks = find_peaks(Sxx)
-    peaks = idxs_to_tf_pairs(peaks, t, f)
-    return hash_points(peaks, "recorded")
-''''''''
-
-def mytest:
-    pass
