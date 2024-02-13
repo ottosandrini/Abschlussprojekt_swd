@@ -1,6 +1,7 @@
 import streamlit as st
 import os 
 from logik import songclass
+from st_audiorec import st_audiorec
 
 st.write("abracadabra")
          
@@ -38,3 +39,11 @@ with tab1:
             
             song = songclass.Song( filename, file_path, "Test", "Test", "Test")
             song.store_data()
+
+with tab2:
+    st.header("record music")
+
+    wav_audio_data = st_audiorec()
+
+    if wav_audio_data is not None:
+        st.audio(wav_audio_data, format='audio/wav')
