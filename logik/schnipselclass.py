@@ -1,5 +1,6 @@
 import uuid
-
+import TinyDB
+import os 
 from . import fingerprint as fp
 
 class Schnipsel: 
