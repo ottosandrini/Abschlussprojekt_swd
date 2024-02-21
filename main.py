@@ -2,10 +2,11 @@ import streamlit as st
 import os 
 from logik import songclass
 from st_audiorec import st_audiorec
+from logik import schnipselclass
 
 st.write("abracadabra")
          
-tab1, tab2 = st.tabs(["upload music","recognize music"])
+tab1, tab2, tab3 = st.tabs(["upload music","recognize music", "record music"])
 
 with tab1:
     st.header("upload music")
@@ -41,6 +42,35 @@ with tab1:
             song.store_data()
 
 with tab2:
+    st.header("recognize music")
+    uploaded_schnipsel = st.file_uploader("Choose a Schnipsel", type=['mp3'])
+
+    if uploaded_schnipsel is not None:
+        # Den Dateinamen extrahieren
+        filename = uploaded_schnipsel.name
+
+        # Die Audiodaten aus der hochgeladenen Datei lesen
+        audio_data = uploaded_schnipsel.read()
+
+        # Die lokal gespeicherte Audiodatei wiedergeben
+        st.audio(audio_data)
+
+        file_path = os.path.join("uploaded_schnipsel", filename)
+
+        if st.button("upload Schnipsel", key="upload Song"):
+
+           
+            with open(file_path, "wb") as f:
+                f.write(audio_data)
+
+            # Bestätigung anzeigen
+            st.success(f"Die Datei wurde erfolgreich gespeichert: {file_path}")
+
+            schnipsel = schnipselclass.Schnipsel(audio_data)
+            schnipsel.recognise_song()
+
+
+with tab3:
     st.header("record music")
 
     wav_audio_data = st_audiorec()
