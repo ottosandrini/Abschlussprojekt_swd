@@ -4,3 +4,4 @@ requirements.txt
 s.sh
 database.json 
 abracadabra.log
+logik/__pycache__
