@@ -23,7 +23,7 @@ with tab1:
         # Die lokal gespeicherte Audiodatei wiedergeben
         st.audio(audio_data)
 
-        if st.button("upload Song", key="upload Song"):
+        if st.button("upload Song", key="upload_Song"):
 
             # Den Dateipfad für die lokale Speicherung erstellen
             file_path = os.path.join("uploaded_songs", filename)
@@ -57,7 +57,7 @@ with tab2:
 
         file_path = os.path.join("uploaded_schnipsel", filename)
 
-        if st.button("upload Schnipsel", key="upload Song"):
+        if st.button("upload Schnipsel", key="upload_schnipsel"):
 
            
             with open(file_path, "wb") as f:
@@ -66,7 +66,7 @@ with tab2:
             # Bestätigung anzeigen
             st.success(f"Die Datei wurde erfolgreich gespeichert: {file_path}")
 
-            schnipsel = schnipselclass.Schnipsel(audio_data)
+            schnipsel = schnipselclass.Schnipsel(file_path)
             schnipsel.recognise_song()
 
 
