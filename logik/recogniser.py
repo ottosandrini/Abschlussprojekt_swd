@@ -17,7 +17,7 @@ def score_match(offsets):
   :rtype: int
   """
   # Use bins spaced 0.5 seconds apart
-  binwidth = 2
+  binwidth = 0.5
   tks = list(map(lambda x: x[0] - x[1], offsets))
   hist, _ = np.histogram(tks, bins=np.arange(int(min(tks)), int(max(tks)) + binwidth + 1, binwidth))
   return np.max(hist)
