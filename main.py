@@ -81,7 +81,7 @@ with tab2: # --- RECOGNIZE TAB ---
 
     Search_keyword = 'Nothing else matters'
     st.write(f"Here you can find something about {Search_keyword}: ")
-    st.write(recommendation.duckduckgo_search(Search_keyword))
+    st.write(vorschlaege.duckduckgo_search(Search_keyword))
    
 
 
