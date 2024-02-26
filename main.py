@@ -3,7 +3,7 @@ import os
 from logik import songclass
 from st_audiorec import st_audiorec
 from logik import schnipselclass
-from logik import recommendation
+from logik import vorschlaege 
 
 st.write("abracadabra")
          
