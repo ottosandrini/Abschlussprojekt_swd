@@ -57,7 +57,7 @@ def get_matches(hashes, threshhold=5):
         for song_hash, song_offset, _ in song["song_hash"]:
             #iterate over schnipsel_hash
             for schnipsel_hash, schnipsel_offset, _ in hashes:
-
+                pass
 
 
 #    for h, t, _ in hashes:
