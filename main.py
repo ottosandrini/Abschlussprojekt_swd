@@ -79,9 +79,9 @@ with tab2: # --- RECOGNIZE TAB ---
             if recognised_song is not None:
                 st.success("SUCCESS! Found a matching song")
 
-    Search_eyword = 'Nothing else matters'
-    st.write("Here you can find something about xy: ")
-    st.write(recommendation.duckduckgo_search(Search_eyword))
+    Search_keyword = 'Nothing else matters'
+    st.write(f"Here you can find something about {Search_keyword}: ")
+    st.write(recommendation.duckduckgo_search(Search_keyword))
    
 
 
