@@ -15,12 +15,12 @@ class Schnipsel:
         Used when recording audio.
 
         :param frames: A mono audio stream. Data type is any that ``scipy.signal.spectrogram`` accepts.
-        :returns: The output of :func:`hash_points`.
+        :returns: same as hash_points(): A list of tuples of the form (hash, time offset, song_id)
         """
         f, t, Sxx = fp.file_to_spectrogram(self.file)
         peaks = fp.find_peaks(Sxx)
         peaks = fp.idxs_to_tf_pairs(peaks, t, f)
-        return fp.hash_points(peaks, self.file)
+        return fp.hash_points(peaks, self.file, 1200)
     """
     def check_hashes(self): # code here only for demonstration purposes, will not work like this
         db_hashes = self.db_connnector.getall()
@@ -43,6 +43,6 @@ class Schnipsel:
         hashes = self.schnipselhash
         matches = rc.get_matches(hashes)
         matched_song = rc.best_match(matches)
-        if info is not None:
-            return info
+        #if info is not None:
+        #    return info
         return matched_song

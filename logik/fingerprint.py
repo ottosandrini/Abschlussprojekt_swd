@@ -93,7 +93,7 @@ def target_zone(anchor, points, width, height, t):
         yield point
 
 
-def hash_points(points, filename):
+def hash_points(points, filename, song_id):
     """Generates all hashes for a list of peaks.
 
     Iterates through the peaks, generating a hash for each peak within that peak's target zone.
@@ -103,7 +103,7 @@ def hash_points(points, filename):
     :returns: A list of tuples of the form (hash, time offset, song_id).
     """
     hashes = []
-    song_id = uuid.uuid5(uuid.NAMESPACE_OID, filename).int
+    #song_id = uuid.uuid5(uuid.NAMESPACE_OID, filename).int
     for anchor in points:
         for target in target_zone(
             anchor, points, settings.TARGET_T, settings.TARGET_F, settings.TARGET_START
