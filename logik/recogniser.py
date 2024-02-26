@@ -39,7 +39,7 @@ def best_match(matches):
       if len(offsets) < best_score:
           # can't be best score, avoid expensive histogram
           continue
-      score = fp.score_match(offsets)
+      score = score_match(offsets)
       if score > best_score:
           best_score = score
           matched_song = song_id
@@ -47,28 +47,19 @@ def best_match(matches):
 
 def get_matches(hashes, threshhold=5):
     # Adaptation of get_matches() from abracadabra/storage.py
-
+    # hashes = [(hash, offset, id),(hash2, offset 2, id)]
+    
     connector = sc.Song.db_connector
     songs = connector.all()
-    result_dict = {}
+    
+    result_dict = defaultdict(list)
     # iterate over songs
     for song in songs:
         #iterate over hash-tuples
-        for song_hash, song_offset, _ in song["song_hash"]:
+        for song_hash, song_offset, songid in song["song_hash"]: # song["song_hash"] = (hash, offset, id)
             #iterate over schnipsel_hash
-            for schnipsel_hash, schnipsel_offset, _ in hashes:
-                pass
+            for schnipsel_hash, schnipsel_offset, o_o in hashes:
+                if schnipsel_hash == song_hash:
+                    result_dict[songid].append((song_offset, song_hash))
 
-
-#    for h, t, _ in hashes:
-#        # Query the database for matching hashes
-#        matching_hashes = connector.search(Song.song_hash == h)
-#        for match in matching_hashes:
-#            # Add the match to the result dictionary
-#            result_dict[match['name']].append((match['offset'], t))
-#    
-#    # Filter the results based on the threshold
-#    result_dict = {k: v for k, v in result_dict.items() if len(v) > threshold}
-#    
     return result_dict
-
