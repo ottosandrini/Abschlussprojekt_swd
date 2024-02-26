@@ -3,6 +3,7 @@ import os
 from logik import songclass
 from st_audiorec import st_audiorec
 from logik import schnipselclass
+from logik import recommendation
 
 st.write("abracadabra")
          
@@ -77,6 +78,12 @@ with tab2: # --- RECOGNIZE TAB ---
             recognised_song = schnipsel.recognise_song()
             if recognised_song is not None:
                 st.success("SUCCESS! Found a matching song")
+
+    Search_eyword = 'Nothing else matters'
+    st.write("Here you can find something about xy: ")
+    st.write(recommendation.duckduckgo_search(Search_eyword))
+   
+
 
 
 with tab3: # --- RECORD TAB ---
