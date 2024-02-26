@@ -9,12 +9,13 @@ class Song:
     Song Klasse
     kann einen Hash aus einem Song generieren und die Hashes + Songinfo speichern
     """
-    def __init__(self, name, file, album, artist, album_art):
+    def __init__(self, name, file, album, artist, album_art, song_id):
         self.name = name
         self.file = file
         self.album = album
         self.artist = artist
         self.album_art = album_art
+        self.song_id = song_id
         self.song_hash = self.fingerprint_file()
 
     def fingerprint_file(self):
@@ -28,9 +29,14 @@ class Song:
         f, t, Sxx = fp.file_to_spectrogram(self.file)
         peaks = fp.find_peaks(Sxx)
         peaks = fp.idxs_to_tf_pairs(peaks, t, f)
-        return fp.hash_points(peaks, self.file)
+        return fp.hash_points(peaks, self.file, self.song_id)
 
     def store_data(self):
         print("... storing data")
         self.db_connector.insert(self.__dict__)
         print("... data stored!")
+
+    @classmethod
+    def cleardb(cls):
+        # removes all songs from database
+        Song.db_connector.truncate()

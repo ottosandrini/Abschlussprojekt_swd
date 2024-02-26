@@ -49,17 +49,26 @@ def get_matches(hashes, threshhold=5):
     # Adaptation of get_matches() from abracadabra/storage.py
 
     connector = sc.Song.db_connector
-    result_dict = defaultdict(list)
-    Song = Query()
-    for h, t, _ in hashes:
-        # Query the database for matching hashes
-        matching_hashes = connector.search(Song.song_hash == h)
-        for match in matching_hashes:
-            # Add the match to the result dictionary
-            result_dict[match['name']].append((match['offset'], t))
-    
-    # Filter the results based on the threshold
-    result_dict = {k: v for k, v in result_dict.items() if len(v) > threshold}
-    
+    songs = connector.all()
+    result_dict = {}
+    # iterate over songs
+    for song in songs:
+        #iterate over hash-tuples
+        for song_hash, song_offset, _ in song["song_hash"]:
+            #iterate over schnipsel_hash
+            for schnipsel_hash, schnipsel_offset, _ in hashes:
+
+
+
+#    for h, t, _ in hashes:
+#        # Query the database for matching hashes
+#        matching_hashes = connector.search(Song.song_hash == h)
+#        for match in matching_hashes:
+#            # Add the match to the result dictionary
+#            result_dict[match['name']].append((match['offset'], t))
+#    
+#    # Filter the results based on the threshold
+#    result_dict = {k: v for k, v in result_dict.items() if len(v) > threshold}
+#    
     return result_dict
 
