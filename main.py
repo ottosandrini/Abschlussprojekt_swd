@@ -12,7 +12,7 @@ tab1, tab2, tab3 = st.tabs(["upload music","recognize music", "record music"])
 with tab1: # --- UPLOAD TAB ---
     st.header("upload music")
 
-    uploaded_song = st.file_uploader("Choose a file", type=['mp3'])
+    uploaded_song = st.file_uploader("Choose a file", type=['mp3', 'wav'])
         
     if uploaded_song is not None:
         # Den Dateinamen extrahieren
@@ -60,7 +60,7 @@ with tab1: # --- UPLOAD TAB ---
 
 with tab2: # --- RECOGNIZE TAB ---
     st.header("recognize music")
-    uploaded_schnipsel = st.file_uploader("Choose a Schnipsel", type=['mp3'])
+    uploaded_schnipsel = st.file_uploader("Choose a Schnipsel", type=['mp3', 'wav'])
 
     if uploaded_schnipsel is not None:
         filename = uploaded_schnipsel.name
@@ -74,10 +74,15 @@ with tab2: # --- RECOGNIZE TAB ---
             st.success(f"Die Datei wurde erfolgreich gespeichert: {file_path}")
             # Initialize schnipsel Object
             schnipsel = schnipselclass.Schnipsel(file_path)
+            #schnipsel.print_hash()
             # attempt to recognize a song
             recognised_song = schnipsel.recognise_song()
             if recognised_song is not None:
                 st.success("SUCCESS! Found a matching song")
+                recognised_song = int(recognised_song)
+                name = songclass.Song.get_song_name_by_id(recognised_song)
+                nmstr = "This song matches the Schnipsel closely: \n" + name
+                st.write(nmstr)
 
     Search_keyword = 'Nothing else matters'
     st.write(f"Here you can find something about {Search_keyword}: ")
