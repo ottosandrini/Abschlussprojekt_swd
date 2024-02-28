@@ -5,6 +5,7 @@ from st_audiorec import st_audiorec
 from logik import schnipselclass
 from logik import vorschlaege 
 from serpapi import GoogleSearch
+import tempfile
 
 
 
@@ -110,6 +111,29 @@ with tab2: # --- RECOGNIZE TAB ---
 with tab3: # --- RECORD TAB ---
     st.header("record music")
 
+    # Aufnahme des Musikabschnitts
     wav_audio_data = st_audiorec()
+
     if wav_audio_data is not None:
         st.audio(wav_audio_data, format='audio/wav')
+
+        # Temporäre Datei erstellen, um den aufgenommenen Abschnitt zu speichern
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
+            temp_file.write(wav_audio_data)
+            temp_file_path = temp_file.name
+
+        # Initialize Schnipsel Object
+        schnipsel = schnipselclass.Schnipsel(temp_file_path)
+
+        # Attempt to recognize a song
+        recognised_song = schnipsel.recognise_song()
+
+        # Löschen der temporären Datei
+        os.unlink(temp_file_path)
+
+        if recognised_song is not None:
+            st.success("SUCCESS! Found a matching song")
+            recognised_song = int(recognised_song)
+            name = songclass.Song.get_song_name_by_id(recognised_song)
+            nmstr = "This song matches the Schnipsel closely: \n" + name
+            st.write(nmstr)
