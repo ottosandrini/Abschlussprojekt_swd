@@ -4,6 +4,10 @@ from logik import songclass
 from st_audiorec import st_audiorec
 from logik import schnipselclass
 from logik import vorschlaege 
+from serpapi import GoogleSearch
+import tempfile
+
+
 
 st.write("abracadabra")
          
@@ -11,6 +15,16 @@ tab1, tab2, tab3 = st.tabs(["upload music","recognize music", "record music"])
 
 with tab1: # --- UPLOAD TAB ---
     st.header("upload music")
+
+    if st.button("clear database", key="clear database"):
+        # This button clears the tinyDB database & deletes all files in /uploaded_songs
+        uploaded_songs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploaded_songs")
+        songclass.Song.cleardb()
+        for filename in os.listdir(uploaded_songs_path):
+            if os.path.isfile(os.path.join(uploaded_songs_path, filename)):
+                os.remove(os.path.join(uploaded_songs_path, filename))
+        st.warning("Database cleared!")
+        print("Deleted all songs in /uploaded_songs")
 
     uploaded_song = st.file_uploader("Choose a file", type=['mp3', 'wav'])
         
@@ -48,20 +62,11 @@ with tab1: # --- UPLOAD TAB ---
             song.store_data()
 
 
-    if st.button("clear database", key="clear database"):
-        # This button clears the tinyDB database & deletes all files in /uploaded_songs
-        uploaded_songs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploaded_songs")
-        songclass.Song.cleardb()
-        for filename in os.listdir(uploaded_songs_path):
-            if os.path.isfile(os.path.join(uploaded_songs_path, filename)):
-                os.remove(os.path.join(uploaded_songs_path, filename))
-        st.warning("Database cleared!")
-        print("Deleted all songs in /uploaded_songs")
 
 with tab2: # --- RECOGNIZE TAB ---
     st.header("recognize music")
     uploaded_schnipsel = st.file_uploader("Choose a Schnipsel", type=['mp3', 'wav'])
-
+    name = ""
     if uploaded_schnipsel is not None:
         filename = uploaded_schnipsel.name
         audio_data = uploaded_schnipsel.read()
@@ -81,19 +86,54 @@ with tab2: # --- RECOGNIZE TAB ---
                 st.success("SUCCESS! Found a matching song")
                 recognised_song = int(recognised_song)
                 name = songclass.Song.get_song_name_by_id(recognised_song)
+                name = name.split(".")[0]
                 nmstr = "This song matches the Schnipsel closely: \n" + name
                 st.write(nmstr)
 
-    Search_keyword = 'Nothing else matters'
-    st.write(f"Here you can find something about {Search_keyword}: ")
-    st.write(vorschlaege.duckduckgo_search(Search_keyword))
-   
+            Search_keyword = name
+            print(Search_keyword + "   --- SEARCH KEYWORD ---")
+            st.write(f"Find out more about {Search_keyword}: ")
+            apikey = "2225a3954c27976ceae691cb28764bf93adcbdc7adf86d4cdda2eb6f0c0c6b67"
+            params = {
+              "engine": "duckduckgo",
+              "q": Search_keyword,
+              "kl": "us-en",
+              "api_key": apikey
+            }
 
+            search = GoogleSearch(params)
+            results = search.get_dict()
+            print(results)
+            for i, result in enumerate(results['organic_results'][:5], start=1):
+                st.write(f"{i}. [{result['title']}]({result['link']})")
 
 
 with tab3: # --- RECORD TAB ---
     st.header("record music")
 
+    # Aufnahme des Musikabschnitts
     wav_audio_data = st_audiorec()
+
     if wav_audio_data is not None:
         st.audio(wav_audio_data, format='audio/wav')
+
+        # Temporäre Datei erstellen, um den aufgenommenen Abschnitt zu speichern
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
+            temp_file.write(wav_audio_data)
+            temp_file_path = temp_file.name
+
+        # Initialize Schnipsel Object
+        schnipsel = schnipselclass.Schnipsel(temp_file_path)
+
+        # Attempt to recognize a song
+        recognised_song = schnipsel.recognise_song()
+
+        # Löschen der temporären Datei
+        os.unlink(temp_file_path)
+
+        if recognised_song is not None:
+            st.success("SUCCESS! Found a matching song")
+            recognised_song = int(recognised_song)
+            name = songclass.Song.get_song_name_by_id(recognised_song)
+            nmstr = "This song matches the Schnipsel closely: \n" + name
+            st.write(nmstr)
