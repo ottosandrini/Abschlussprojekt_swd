@@ -45,6 +45,42 @@ def best_match(matches):
           matched_song = song_id
   return matched_song
 
+#db_connector = sc.Song.db_connector
+#
+#def get_matches(hashes, threshold=5):
+#    """Get matching songs for a set of hashes.
+#
+#    :param hashes: A list of hashes as returned by
+#        :func:~abracadabra.fingerprint.fingerprint_file.
+#    :param threshold: Return songs that have more than `threshold` matches.
+#    :returns: A dictionary mapping `song_id` to a list of time offset tuples. The tuples are of
+#        the form (result offset, original hash offset).
+#    :rtype: dict(str: list(tuple(float, float)))
+#    """
+#    h_dict = {}
+#    for h, t, _ in hashes:
+#        h_dict[h] = t
+#
+#    # Define table and query
+#    table = db_connector.table('hash_table')
+#    myquery = Query()
+#
+#    # Initialize result_dict
+#    result_dict = defaultdict(list)
+#
+#    # Loop through each hash in the input hashes
+#    for h, t, _ in hashes:
+#        # Perform query to retrieve matching hashes
+#        results = table.search(myquery.hash == h)
+#
+#        # If there are matches, add them to result_dict
+#        for r in results:
+#            result_dict[r['song_id']].append((r['offset'], t))
+#    print(result_dict)
+#
+#    return result_dict
+#
+
 def get_matches(hashes, threshhold=5):
     # Adaptation of get_matches() from abracadabra/storage.py
     # hashes = [(hash, offset, id),(hash2, offset 2, id)]
@@ -60,6 +96,8 @@ def get_matches(hashes, threshhold=5):
             #iterate over schnipsel_hash
             for schnipsel_hash, schnipsel_offset, o_o in hashes:
                 if schnipsel_hash == song_hash:
-                    result_dict[songid].append((song_offset, song_hash))
+                    result_dict[songid].append((song_offset, schnipsel_offset))
+    print(result_dict)
 
     return result_dict
+

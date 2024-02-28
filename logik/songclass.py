@@ -5,6 +5,7 @@ from . import fingerprint as fp
 
 class Song:
     db_connector = TinyDB(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'database.json'))
+    query = Query()
     """
     Song Klasse
     kann einen Hash aus einem Song generieren und die Hashes + Songinfo speichern
@@ -40,3 +41,13 @@ class Song:
     def cleardb(cls):
         # removes all songs from database
         Song.db_connector.truncate()
+
+    @classmethod
+    def get_song_name_by_id(cls, sid):
+        # Retrieve song name from the database based on the provided song_id
+
+        song_data = cls.db_connector.search(cls.query.song_id == sid)
+        if song_data:
+            return song_data[0]['name']
+        else:
+            return None

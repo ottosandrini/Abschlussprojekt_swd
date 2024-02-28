@@ -28,7 +28,8 @@ class Schnipsel:
             if self.schnipselhash == i:
                 print(i)
     """
-
+    def print_hash(self):
+        print(self.schnipselhash)
 
     def recognise_song(self):
         """Recognises a pre-recorded sample.
@@ -41,8 +42,13 @@ class Schnipsel:
         :rtype: tuple(str, str, str)
         """
         hashes = self.schnipselhash
+        amthashes = len(hashes)
+        print(f"Amount of matching hashes found: {amthashes}")
         matches = rc.get_matches(hashes)
+        amtmatches = len(matches)
+        print(f"Amount of matches found: {amtmatches}")
         matched_song = rc.best_match(matches)
+        print(matched_song)
         #if info is not None:
         #    return info
         return matched_song
