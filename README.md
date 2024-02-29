@@ -29,21 +29,21 @@ recording library: https://github.com/stefanrmmr/streamlit-audio-recorder
 
 Zum Start das Github Repository clonen:
 
-  git clone https://github.com/ottosandrini/Abschlussprojekt_swd.git
+    git clone https://github.com/ottosandrini/Abschlussprojekt_swd.git
 
 abracadabra benötigt zusätzlich noch programme, die in einem Unix System ganz einfach mit folgendem Befehl installiert werden können:
 
-  sudo apt-get install gcc portaudio19-dev python3-dev ffmpeg
+    sudo apt-get install gcc portaudio19-dev python3-dev ffmpeg
 
 Nun kann man ein Python virtual environment starten, wenn man möchte. Man muss nun nämlich mit:
 
-  pip install -r requirements.txt
+    pip install -r requirements.txt
 
 alle benötigten Python Module installieren.
 
 Nun sollte man in der Lage sein mit folgendem Befehl die Applikation zu starten:
 
-  streamlit run main.py
+    streamlit run main.py
 
 ## Verwendung
 
