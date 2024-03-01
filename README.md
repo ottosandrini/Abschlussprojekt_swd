@@ -51,12 +51,12 @@ Wurde die Applikation wie zuvor beschrieben gestartet, sollte sich auf dem bevor
 
 Dort sollten sich 3 Reiter befinden: **Upload Music**, **Recognize Music** und **Record Music**
 
-**Verwendung von Upload Music:**
+### Verwendung von Upload Music:
 
 In diesem Reiter kann man Songs vom typ **mp3** und **wav** zu der Bibliothek hinzufügen. Mit dem Feld **Browse Files** öffnet sich der Datenexplorer des Geräts um den Song auszuwählen, oder man fügt ihn per Drag&Drop im vorgesehenen Feld hinzu.
 Ist dies erfolgt, kann man den gewählten Song abspielen und mit dem Feld **upload Song** hochladen. Dieser Song wird dann in dem lokalen Ordner **uploaded_songs** abgelegt und zusätlich in Form von Hashes mit einer zugeteilten ID in der tinyDB Datenbank abgelegt. 
 
-**Verwendung von Recognize Music:**
+### Verwendung von Recognize Music:
 
 Die Vorgehensweise beim hochladen eines Songabschnittes, vereinfach genannt **Schnipsel**, ist die gleiche wie bei Upload Music.
 Auch hier werden die hochgeladenen Schnipsel im lokalen Ordner **uploaded_schnipsel** abgelegt.
