@@ -71,6 +71,7 @@ Zusätzlich werden unter dem ermittelten Song per **Duckandgo** Links zu diesem 
 
 In diesem Reiter können Songabschnitte über das im Gerät verbaute Mikrofon aufgenommen werden. Je nach Browser kann es sein, dass hier zuerst die Genehmigung zur Verwendung des Mikrofons erteilt werden muss. In diesem Fall muss der Aufnahmevorgang erneut gestartet werden.
 Wird die Aufnahme beendet, dauert es eine kurze Zeit diesen Abschnitt zu verarbeiten und Zwischenzuspeichern, anschließend wird der Abschnitt genau wie bei dem Reiter recognize music mit der Datenbank abgeglichen und der Match ausgegeben. 
+Auch hier werden mittels **DuckDuckGo** Vorschläge zum erkannten Song dargestellt.
 
 **Funktion Record Entire Song**
 
