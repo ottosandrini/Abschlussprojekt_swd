@@ -65,15 +65,15 @@ Nun werden für diese Matches die Abweichungen abgeglichen und der Beste Match, 
 Befindet sich der gesuchte Song nicht in der Datenbank, wird dennoch der Song mit der höchsten Übereinstimmung ausgegeben.
 Zusätzlich werden unter dem ermittelten Song per **Duckandgo** Links zu diesem Songtitel ausgegeben. Wir verwenden die SerpApi, um diese Suchen durchzuführen. Diese hat leider ein Limit von 100 freien Suchen. Beim aktuellen Stand stehen noch knapp 80 Suchen zur Verfügung.
 
-**Verwendung von Record Music:**
+### Verwendung von Record Music:
 
-### Funktion Record Music Section
+#### Funktion Record Music Section
 
 In diesem Reiter können Songabschnitte über das im Gerät verbaute Mikrofon aufgenommen werden. Je nach Browser kann es sein, dass hier zuerst die Genehmigung zur Verwendung des Mikrofons erteilt werden muss. In diesem Fall muss der Aufnahmevorgang erneut gestartet werden.
 Wird die Aufnahme beendet, dauert es eine kurze Zeit diesen Abschnitt zu verarbeiten und Zwischenzuspeichern, anschließend wird der Abschnitt genau wie bei dem Reiter recognize music mit der Datenbank abgeglichen und der Match ausgegeben. 
 Auch hier werden mittels **DuckDuckGo** Vorschläge zum erkannten Song dargestellt.
 
-### Funktion Record Entire Song
+#### Funktion Record Entire Song
 
 In dieser Funktion können Songs, ähnlich wie beim Tab **Upload Music**, zur Datenbank hinzugefügt werden. Hier wird wie bei Record Music Section der Song über das Mikrofon aufgenommen. Beim Beenden der Aufnahme wird diese Tonspur verarbeitet, was leider einen Moment dauern kann, und anschließend kann der Name des Songs eingegeben werden. Mit dem Button **Save recorded song** wird der Song dann mit dem eingegebenen Namen in der Datenbank gespeichert.
 Diese Funktion ermöglicht das Hochladen von copyright-geschützen Songs, allerdings ausschließlich für den privaten Gebrauch!
