@@ -8,7 +8,7 @@ from serpapi import GoogleSearch
 import tempfile
 
 st.write("Shazam auf Wish bestellt")
-         
+apikey = "2225a3954c27976ceae691cb28764bf93adcbdc7adf86d4cdda2eb6f0c0c6b67"         
 tab1, tab2, tab3 = st.tabs(["Upload Music","Recognize Music", "Record Music"])
 
 with tab1: # --- UPLOAD TAB ---
@@ -91,7 +91,6 @@ with tab2: # --- RECOGNIZE TAB ---
             Search_keyword = name
             print(Search_keyword + "   --- SEARCH KEYWORD ---")
             st.write(f"Find out more about {Search_keyword}: ")
-            apikey = "2225a3954c27976ceae691cb28764bf93adcbdc7adf86d4cdda2eb6f0c0c6b67"
             params = {
               "engine": "duckduckgo",
               "q": Search_keyword,
@@ -101,14 +100,14 @@ with tab2: # --- RECOGNIZE TAB ---
 
             search = GoogleSearch(params)
             results = search.get_dict()
-            print(results)
-            for i, result in enumerate(results['organic_results'][:5], start=1):
-                st.write(f"{i}. [{result['title']}]({result['link']})")
+            if results:
+                for i, result in enumerate(results['organic_results'][:5], start=1):
+                    st.write(f"{i}. [{result['title']}]({result['link']})")
 
 
 with tab3: # --- RECORD TAB ---
     st.header("Record Music")
-
+    name = ""
     # Aufnahme des Musikabschnitts
     recording_choice = st.radio("Choose Recording Type:", ("Record Music Section", "Record Entire Song"))
 
@@ -138,8 +137,25 @@ with tab3: # --- RECORD TAB ---
                 st.success("SUCCESS! Found a matching song")
                 recognised_song = int(recognised_song)
                 name = songclass.Song.get_song_name_by_id(recognised_song)
+                name = name.split(".")[0]
                 nmstr = "This song matches the Schnipsel closely: \n" + name
                 st.write(nmstr)
+                
+            Search_keyword = name
+            params = {
+            "engine": "duckduckgo",
+            "q": Search_keyword,
+            "kl": "us-en",
+            "api_key": apikey
+            }
+            search = GoogleSearch(params)
+            results = search.get_dict()
+            st.write("Here is some more Information about your song: \n")
+            if results is not None:
+                for i, result in enumerate(results['organic_results'][:5], start=1):
+                    st.write(f"{i}. [{result['title']}]({result['link']})")
+
+                #code here
     else:
         st.subheader("Record Entire Song")
         # Audiodaten aufnehmen
