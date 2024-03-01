@@ -7,16 +7,14 @@ from logik import vorschlaege
 from serpapi import GoogleSearch
 import tempfile
 
-
-
-st.write("abracadabra")
+st.write("Shazam auf Wish bestellt")
          
-tab1, tab2, tab3 = st.tabs(["upload music","recognize music", "record music"])
+tab1, tab2, tab3 = st.tabs(["Upload Music","Recognize Music", "Record Music"])
 
 with tab1: # --- UPLOAD TAB ---
-    st.header("upload music")
+    st.header("Upload Music")
 
-    if st.button("clear database", key="clear database"):
+    if st.button("clear database", key="clear_database"):
         # This button clears the tinyDB database & deletes all files in /uploaded_songs
         uploaded_songs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploaded_songs")
         songclass.Song.cleardb()
@@ -64,7 +62,7 @@ with tab1: # --- UPLOAD TAB ---
 
 
 with tab2: # --- RECOGNIZE TAB ---
-    st.header("recognize music")
+    st.header("Recognize Music")
     uploaded_schnipsel = st.file_uploader("Choose a Schnipsel", type=['mp3', 'wav'])
     name = ""
     if uploaded_schnipsel is not None:
@@ -109,31 +107,70 @@ with tab2: # --- RECOGNIZE TAB ---
 
 
 with tab3: # --- RECORD TAB ---
-    st.header("record music")
+    st.header("Record Music")
 
     # Aufnahme des Musikabschnitts
-    wav_audio_data = st_audiorec()
+    recording_choice = st.radio("Choose Recording Type:", ("Record Music Section", "Record Entire Song"))
 
-    if wav_audio_data is not None:
-        st.audio(wav_audio_data, format='audio/wav')
+    if recording_choice == "Record Music Section":
+        st.subheader("Record Music Section")
+        # Aufnahme des Musikabschnitts
+        wav_audio_data = st_audiorec()
 
-        # Temporäre Datei erstellen, um den aufgenommenen Abschnitt zu speichern
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
-            temp_file.write(wav_audio_data)
-            temp_file_path = temp_file.name
+        if wav_audio_data is not None:
+            st.audio(wav_audio_data, format='audio/wav')
 
-        # Initialize Schnipsel Object
-        schnipsel = schnipselclass.Schnipsel(temp_file_path)
+            # Temporäre Datei erstellen, um den aufgenommenen Abschnitt zu speichern
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
+                temp_file.write(wav_audio_data)
+                temp_file_path = temp_file.name
 
-        # Attempt to recognize a song
-        recognised_song = schnipsel.recognise_song()
+            # Initialize Schnipsel Object
+            schnipsel = schnipselclass.Schnipsel(temp_file_path)
 
-        # Löschen der temporären Datei
-        os.unlink(temp_file_path)
+            # Attempt to recognize a song
+            recognised_song = schnipsel.recognise_song()
 
-        if recognised_song is not None:
-            st.success("SUCCESS! Found a matching song")
-            recognised_song = int(recognised_song)
-            name = songclass.Song.get_song_name_by_id(recognised_song)
-            nmstr = "This song matches the Schnipsel closely: \n" + name
-            st.write(nmstr)
+            # Löschen der temporären Datei
+            os.unlink(temp_file_path)
+
+            if recognised_song is not None:
+                st.success("SUCCESS! Found a matching song")
+                recognised_song = int(recognised_song)
+                name = songclass.Song.get_song_name_by_id(recognised_song)
+                nmstr = "This song matches the Schnipsel closely: \n" + name
+                st.write(nmstr)
+    else:
+        st.subheader("Record Entire Song")
+        # Audiodaten aufnehmen
+        wav_song_data = st_audiorec()
+
+        if wav_song_data is not None:
+            # Audio wiedergeben
+            st.audio(wav_song_data, format='audio/wav')
+
+            # Eingabefeld für den Dateinamen
+            record_filename = st.text_input("Enter Filename:", "recorded_song.wav")
+
+            if st.button("Save Recorded Song", key="save_recorded_song"):
+                # Den Dateipfad für die lokale Speicherung erstellen
+                file_path = os.path.join("uploaded_songs", record_filename)
+                # Songdatei speichern in file_path
+                if os.path.exists(file_path):
+                    st.error(f"Die Datei {record_filename} existiert bereits. Bitte ändern Sie den Dateinamen und speichern Sie die Datei erneut.")
+                else:
+                    # Die Audiodaten in die lokale Datei schreiben
+                    with open(file_path, "wb") as f:
+                        f.write(wav_song_data)
+                    # Bestätigung anzeigen
+                    st.success(f"Die Datei wurde erfolgreich gespeichert: {file_path}")
+
+                # Überprüfen, wie viele Dateien vorhanden sind und eine eindeutige Song-ID generieren
+                uploaded_songs_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploaded_songs")
+                songid = len([name for name in os.listdir(uploaded_songs_path) if os.path.isfile(os.path.join(uploaded_songs_path, name))])
+                songid = songid + 1
+                print(songid)
+                
+                # Initialisieren eines Song-Objekts mit den Daten des aufgenommenen Songs
+                song = songclass.Song(record_filename, file_path, "Test", "Test", "Test", songid)
+                song.store_data()
